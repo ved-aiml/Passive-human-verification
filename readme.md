@@ -18,9 +18,9 @@ An ML-based system to detect human vs bot behavior without using CAPTCHA.
 
 * [x] Feature design
 * [x] Data generation
-* [ ] Model training
-* [ ] API development
-* [ ] Frontend SDK
+* [x] Model training
+* [x] API development
+* [x] Frontend SDK
 
 ## Goal
 
