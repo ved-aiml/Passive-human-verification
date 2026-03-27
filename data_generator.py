@@ -19,6 +19,8 @@ def generate_human_sample():
   "hesitation_time": random.uniform(0.3,3),
   "session_duration":session_duration,
   "actions_per_second":actions_per_second,
+  "idle_ratio":random.uniform(0.05,0.2),
+  "curvature_score":random.uniform(0.2,2),
   "label": 1
 }
 for _ in range(1000):
@@ -40,6 +42,8 @@ def generate_bot_sample():
         "hesitation_time": random.uniform(0.0, 0.1), 
         "session_duration": session_duration,
         "actions_per_second": actions / session_duration,
+        "idle_ratio":random.uniform(0.0,0.05),
+        "curvature_score":random.uniform(0.0,0.2),
         "label": 0
     }
 for _ in range(1000):

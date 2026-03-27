@@ -101,6 +101,28 @@ function calculateFeatures(){
     let actions_per_second = session_duration > 0
     ? mouseMovements.length / (session_duration / 1000)
     : 0;
+    let idle_time=0;
+    for(let i=1;i<mouseMovements.length;i++){
+        let dt=mouseMovements[i].time-mouseMovements[i-1].time;
+        if(dt>1000){
+            idle_time+=dt;
+        }
+    }
+    let idle_ratio=session_duration>0?idle_time/session_duration:0;
+
+    let curvature=0;
+    for(let i=2;i<mouseMovements.length;i++){
+        let a=mouseMovements[i-2];
+        let b=mouseMovements[i-1];
+        let c=mouseMovements[i];
+        let dx1=b.x-a.x;
+        let dy1=b.y-a.y;
+        let dx2=c.x-b.x;
+        let dy2=c.y-b.y;
+        let angle=Math.atan2(dy1,dx1)-Math.atan2(dy2,dx2);
+        curvature+=Math.abs(angle);
+    }
+    let curvature_score=mouseMovements.length>2?curvature/(mouseMovements.length-2):0;
 
     return {
     avg_mouse_speed: safe(avg_mouse_speed),
@@ -113,7 +135,9 @@ function calculateFeatures(){
     scroll_speed: safe(scroll_speed),
     hesitation_time: safe(hesitation_time),
     session_duration: safe(session_duration),
-    actions_per_second: safe(actions_per_second)
+    actions_per_second: safe(actions_per_second),
+    idle_ratio: safe(idle_ratio),
+    curvature_score: safe(curvature_score)
 };
 }
 async function sendData(){

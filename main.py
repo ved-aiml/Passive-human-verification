@@ -31,6 +31,8 @@ class SessionData(BaseModel):
     hesitation_time: float
     session_duration: float
     actions_per_second: float
+    idle_ratio:float
+    curvature_score:float
 
 @app.post("/predict")
 def predict(data: SessionData):
@@ -45,7 +47,9 @@ def predict(data: SessionData):
         data.scroll_speed,
         data.hesitation_time,
         data.session_duration,
-        data.actions_per_second
+        data.actions_per_second,
+        data.idle_ratio,
+        data.curvature_score
     ]]
 
     prediction = model.predict(features)[0]
