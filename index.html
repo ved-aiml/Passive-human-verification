@@ -3,12 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PassiveGuard — SDK Demo</title>
+    <meta name="description" content="PassiveGuard SDK demo — invisible behavioral biometric verification embeddable in any website. No CAPTCHA required.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="sendData()">Login</button>
+
+    <!-- Background -->
+    <div class="bg-canvas">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+    <div class="bg-grid"></div>
+    <div id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- Brand -->
+        <div class="brand">
+            <div class="shield-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="url(#shieldGrad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#63b3ed"/>
+                            <stop offset="100%" stop-color="#b794f4"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                </svg>
+            </div>
+            <div class="brand-name">PassiveGuard</div>
+            <div class="brand-tagline">Embeddable Behavioral Verification SDK</div>
+        </div>
+
+        <!-- Card — simulates any third-party website form with the SDK injected -->
+        <div class="card">
+
+            <!-- Form (what any website already has) -->
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <div class="input-wrap">
+                        <input type="text" id="username" class="form-input" placeholder="Enter your username" autocomplete="off">
+                        <div class="input-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" autocomplete="off">
+                        <div class="input-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SDK signal monitor (shows what the SDK is silently capturing) -->
+                <div class="monitor-strip" title="Signals the PassiveGuard SDK is collecting silently">
+                    <div class="monitor-item" id="monMouse">
+                        <div class="monitor-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 3l14 9-7 1-3 7z"/>
+                            </svg>
+                        </div>
+                        <span class="monitor-label">Mouse</span>
+                    </div>
+                    <div class="monitor-item" id="monType">
+                        <div class="monitor-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="M8 10h8M8 14h4"/>
+                            </svg>
+                        </div>
+                        <span class="monitor-label">Typing</span>
+                    </div>
+                    <div class="monitor-item" id="monClick">
+                        <div class="monitor-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 11V6a2 2 0 0 0-4 0v5"/>
+                                <path d="M14 10V4a2 2 0 0 0-4 0v2"/>
+                                <path d="M10 10.5V6a2 2 0 0 0-4 0v8"/>
+                                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+                            </svg>
+                        </div>
+                        <span class="monitor-label">Clicks</span>
+                    </div>
+                    <div class="monitor-item" id="monScroll">
+                        <div class="monitor-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 8v8M8 12l4 4 4-4"/>
+                            </svg>
+                        </div>
+                        <span class="monitor-label">Scroll</span>
+                    </div>
+                </div>
+
+                <!-- Behavioral data progress -->
+                <div class="score-section">
+                    <div class="score-header">
+                        <span class="score-label">Behavioral data collected</span>
+                        <span class="score-value" id="scoreVal">0%</span>
+                    </div>
+                    <div class="score-bar-bg">
+                        <div class="score-bar-fill" id="scoreBar"></div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="button" id="loginBtn" class="btn-submit" onclick="handleLogin()">
+                    <div class="spinner"></div>
+                    <span class="btn-text">Log In</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Passive note -->
+            <div class="passive-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 8v4M12 16h.01"/>
+                </svg>
+                Verification runs invisibly — no CAPTCHA interruption
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Overlay -->
+    <div class="result-overlay" id="resultOverlay">
+        <div class="result-card">
+            <div class="result-icon-wrap" id="resultIcon">
+                <svg id="resultIconSvg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></svg>
+            </div>
+            <div class="result-status" id="resultStatus"></div>
+            <p class="result-message" id="resultMessage"></p>
+            <div class="result-metrics" id="resultMetrics"></div>
+            <button class="btn-retry" onclick="resetOverlay()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="1 4 1 10 7 10"/>
+                    <path d="M3.51 15a9 9 0 1 0 .49-3.5"/>
+                </svg>
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!--
+        ════════════════════════════════════════
+        PassiveGuard SDK — embed these 2 lines
+        on any website to enable silent
+        human verification:
+        ════════════════════════════════════════
+    -->
     <script src="tracker.js"></script>
+    <script src="app.js"></script>
+
 </body>
 </html>

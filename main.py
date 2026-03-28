@@ -52,9 +52,27 @@ def predict(data: SessionData):
         data.curvature_score
     ]]
 
-    prediction = model.predict(features)[0]
+    #prediction = model.predict(features)[0]
+    prob=model.predict_proba(features)[0][1]
+    # return {
+    #     "prediction": int(prediction),
+    #     "result": "human" if prediction == 1 else "bot"
+    # }
+    rule_score = 0
+    if data.backspace_count > 2:
+        rule_score += 0.3
 
-    return {
-        "prediction": int(prediction),
-        "result": "human" if prediction == 1 else "bot"
+    if data.typing_variance > 0.3:
+        rule_score += 0.3
+
+    if data.idle_ratio > 0.2:
+        rule_score += 0.2
+
+    if data.curvature_score > 0.5:
+        rule_score += 0.2
+
+    final_score = 0.6 * prob + 0.4 * rule_score
+    return{
+        "confidence":float(final_score),
+        "result": "human" if final_score>0.7 else "bot" if final_score<0.3 else "suspicious"
     }
