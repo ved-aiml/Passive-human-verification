@@ -1,5 +1,5 @@
 let mouseMovements=[];
-
+console.log("tracker.js loaded");
 document.addEventListener("mousemove",(e)=>{
     mouseMovements.push({
         x:e.clientX,
@@ -32,7 +32,7 @@ function safe(value) {
     return value;
 }
 function calculateFeatures(){
-
+    console.log("calculateFeatures called");
     let speeds = [];
     for (let i = 1; i < mouseMovements.length; i++) {
         const dx = mouseMovements[i].x - mouseMovements[i-1].x;
@@ -149,7 +149,7 @@ function calculateFeatures(){
 }
 async function sendData(){
     const features=calculateFeatures();
-
+    
     const response=await fetch("http://127.0.0.1:8000/predict",{
         method:"POST",
         headers:{

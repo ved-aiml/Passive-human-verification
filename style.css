@@ -1,14 +1,8 @@
-/* ─────────────────────────────────────────────
-   PassiveGuard SDK — Demo Page Styles
-   style.css
-   ───────────────────────────────────────────── */
-
 *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 :root {
     --bg-deep: #060812;
     --bg-card: rgba(255, 255, 255, 0.04);
@@ -25,7 +19,6 @@
 }
 
 html { scroll-behavior: smooth; }
-
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-deep);
@@ -37,22 +30,18 @@ body {
     overflow: hidden;
     position: relative;
 }
-
-/* ── Animated Background ── */
 .bg-canvas {
     position: fixed;
     inset: 0;
     z-index: 0;
     overflow: hidden;
 }
-
 .bg-orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
     animation: orbFloat 12s ease-in-out infinite;
 }
-
 .bg-orb-1 {
     width: 500px; height: 500px;
     background: radial-gradient(circle, rgba(99,179,237,0.12) 0%, transparent 70%);
@@ -66,20 +55,17 @@ body {
     bottom: -100px; right: -80px;
     animation-delay: -4s;
 }
-
 .bg-orb-3 {
     width: 300px; height: 300px;
     background: radial-gradient(circle, rgba(79,209,197,0.08) 0%, transparent 70%);
     top: 50%; left: 60%;
     animation-delay: -8s;
 }
-
 @keyframes orbFloat {
     0%, 100% { transform: translate(0, 0) scale(1); }
     33%       { transform: translate(30px, -40px) scale(1.05); }
     66%       { transform: translate(-20px, 20px) scale(0.95); }
 }
-
 .bg-grid {
     position: fixed;
     inset: 0;
@@ -90,7 +76,6 @@ body {
     background-size: 60px 60px;
 }
 
-/* ── Floating Particles ── */
 .particle {
     position: fixed;
     width: 2px; height: 2px;
@@ -106,8 +91,6 @@ body {
     90%  { opacity: 0.3; }
     100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
 }
-
-/* ── Layout ── */
 .container {
     position: relative;
     z-index: 10;

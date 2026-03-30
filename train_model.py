@@ -27,7 +27,7 @@ from sklearn.calibration import CalibratedClassifierCV
 
 model = XGBClassifier(
     n_estimators=200,
-    max_depth=4,          
+    max_depth=3,          
     learning_rate=0.1,
     subsample=0.8,
     colsample_bytree=0.8,

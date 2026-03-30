@@ -34,6 +34,13 @@ class SessionData(BaseModel):
     idle_ratio:float
     curvature_score:float
 
+def calibrate(prob, T=2.0):
+    import math
+    prob = min(max(prob, 1e-6), 1 - 1e-6)
+    logit = math.log(prob / (1 - prob))
+    logit /= T
+    return 1 / (1 + math.exp(-logit))
+
 @app.post("/predict")
 def predict(data: SessionData):
     features = [[
@@ -54,6 +61,8 @@ def predict(data: SessionData):
 
     #prediction = model.predict(features)[0]
     prob=model.predict_proba(features)[0][1]
+    print("old prob=",prob)
+    prob = calibrate(prob, T=2.0)
     # return {
     #     "prediction": int(prediction),
     #     "result": "human" if prediction == 1 else "bot"
@@ -72,7 +81,10 @@ def predict(data: SessionData):
         rule_score += 0.2
 
     final_score = 0.6 * prob + 0.4 * rule_score
+    print("prob=",prob)
+    print("rule_score=",rule_score)
+    print("final_score=",final_score)
     return{
         "confidence":float(final_score),
-        "result": "human" if final_score>0.7 else "bot" if final_score<0.3 else "suspicious"
+        "result": "human" if final_score>0.6 else "bot" if final_score<0.3 else "suspicious"
     }

@@ -7,6 +7,7 @@
  */
 
 // ── Floating Particles ────────────────────────────────────
+console.log("app.js loaded");
 (function spawnParticles() {
     const container = document.getElementById('particles');
     if (!container) return;
@@ -87,8 +88,8 @@ async function handleLogin() {
 
 // ── Result Overlay ──────────────────────────────────────────
 function showResult(result, features) {
-    const isHuman = result.confidence > 0.7;
-    const isSuspicious = result.confidence >= 0.3 && result.confidence <= 0.7;
+    const isHuman = result.confidence > 0.6;
+    const isSuspicious = result.confidence >= 0.3 && result.confidence <= 0.6;
     const isBot = result.confidence < 0.3;
     const isError = result.prediction === -1;
 
